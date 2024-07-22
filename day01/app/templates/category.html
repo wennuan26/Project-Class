@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Category Management</title>
+</head>
+<body>
+    <h1>Category Management</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Save">
+    </form>
+
+    <label for="name_contains">Name Contains</label>
+    <input id="name_contains" type="text" name="name_contains"/>
+    <button type="submit" formmethod="get">Search</button> <!-- Assuming you'll add a search functionality later -->
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        {% for category in page %}
+        <tr>
+            <td>{{ category.id }}</td>
+            <td>{{ category.name }}</td>
+            <td><button>View</button></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="pagination">
+        {% if page.has_previous %}
+        <button><a href="?page=1">&laquo; First</a></button>
+        <button><a href="?page={{ page.previous_page_number }}">Previous</a></button>
+        {% endif %}
+        Page {{ page.number }} of {{ page.paginator.num_pages }}
+        {% if page.has_next %}
+        <button><a href="?page={{ page.next_page_number }}">Next</a></button>
+        <button><a href="?page={{ page.paginator.num_pages }}">Last &raquo;</a></button>
+        {% endif %}
+    </div>
+</body>
+</html>

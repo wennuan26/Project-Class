@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Management</title>
+</head>
+<body>
+    <h1>Order Management</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save">
+    </form>
+
+    <label for="name_contains">Name Contains</label>
+    <input id="name_contains" type="text" name="name_contains"/>
+    <button type="submit" formmethod="get">Search</button> <!-- Assuming you'll add a search functionality later -->
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Date</th>
+            <th>Items</th>
+            <th>Action</th>
+        </tr>
+        {% for order in ordrs %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.customer }}</td>
+            <td>{{ order.date }}</td>
+            <td>{% for item in order.items.all %}{{ item }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+            <td><button>View</button></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="pagination">
+        <!-- Assuming you will add pagination logic later -->
+        <button>Previous</button>
+        <label>1</label>
+        <button>Next</button>
+    </div>
+</body>
+</html>
